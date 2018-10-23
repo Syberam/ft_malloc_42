@@ -6,7 +6,7 @@
 #    By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/22 09:39:31 by sbonnefo          #+#    #+#              #
-#    Updated: 2018/10/23 19:30:02 by sbonnefo         ###   ########.fr        #
+#    Updated: 2018/10/23 19:31:25 by sbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LINKED_NAME		= libft_malloc.so
 
 CC				= gcc
 FLAG			= -shared -Wall -Werror -Wextra -Wpadded
-INCS			= -I inc -I libft/inc
+INCS			= -I includes
 LIBS			= -L libft -lft
 
 SRC = $(addprefix $(SRC_PATH)/, alloc_size.c \

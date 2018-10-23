@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 13:12:03 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/23 19:25:45 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/23 19:37:04 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 # include <unistd.h>
 # include <sys/mman.h>
 
-# define TINY_ZONE					(getpagesize() * 16)
-# define SMALL_ZONE					(getpagesize() * 280)
-# define NB_BLOCKS					128
-# define TINY						(TINY_ZONE/NB_BLOCKS)
-# define SMALL						(SMALL_ZONE/NB_BLOCKS)
+# define TINY_ZONE					(size_t)(getpagesize() * 16)
+# define SMALL_ZONE					(size_t)(getpagesize() * 280)
+# define NB_BLOCKS					(size_t)128
+# define TINY						(size_t)(TINY_ZONE/NB_BLOCKS)
+# define SMALL						(size_t)(SMALL_ZONE/NB_BLOCKS)
 # define KINDS						{TINY, SMALL}
 
 # define ZHEAD_SIZE					sizeof(t_zonehead)
@@ -37,6 +37,7 @@ enum								e_alloc_size
 typedef struct			s_zonehead
 {
 	enum e_alloc_size	kind;
+	int					align;
 	void				*fills;
 	void				*frees;
 	void				*next;

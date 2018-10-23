@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 14:11:08 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/23 15:16:17 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/23 19:37:44 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void		*realloc(void *ptr, size_t size)
 {
 	void	*head_ref;
 	void	*tmp;
-	size_t	old_size;
 
 	if (ptr == NULL)
 		return (malloc(size));

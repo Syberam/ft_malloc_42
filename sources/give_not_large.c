@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 16:03:16 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/23 19:25:10 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/23 19:38:36 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void	*ft_find_free_zone(enum e_alloc_size kind)
 	return (head);
 }
 
-void	*ft_give_tiny(size_t size)
+void	*ft_give_not_large(size_t size)
 {
 	void	*addr;
 	enum e_alloc_size kind;
