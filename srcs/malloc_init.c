@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:54:38 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/22 17:52:35 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/23 16:11:57 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void	prepare_headers(void *link)
 	}
 }
 
-void	*ft_extend_allocs(void)
+void	*ft_extend_allocs(size_t size)
 {
 	void			*addr;
 
-	if (!(addr = mmap(NULL, TINY_ZONE,
+	if (!(addr = mmap(NULL, size,
 			PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)))
 		return (NULL);
 	prepare_headers(addr);
@@ -47,7 +47,7 @@ void	*ft_init_malloc(void)
 	void			*addr;
 
 	if (g_masterhead != NULL)
-		return g_masterhead;
+		return (g_masterhead);
 	if (!(addr = mmap(NULL, TINY_ZONE,
 			PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)))
 		return (NULL);

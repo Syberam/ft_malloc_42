@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 13:12:03 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/22 18:35:55 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/23 17:41:53 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@ enum e_alloc_size		ft_find_alloc_size(size_t size);
 void					*malloc(size_t size);
 void					*realloc(void *ptr, size_t size);
 void					*ft_init_malloc(void);
-void					*ft_extend_allocs(void);
-void					*ft_give_tiny(size_t size);
-void					*ft_give_small(size_t size);
+void					*ft_extend_allocs(size_t size);
+void					*ft_give_not_large(size_t size);
 void					*ft_give_large(size_t size);
 
 void					prepare_headers(void *link);
