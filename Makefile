@@ -6,7 +6,7 @@
 #    By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/22 09:39:31 by sbonnefo          #+#    #+#              #
-#    Updated: 2018/10/22 09:52:23 by sbonnefo         ###   ########.fr        #
+#    Updated: 2018/10/23 19:30:02 by sbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,13 @@ FLAG			= -shared -Wall -Werror -Wextra -Wpadded
 INCS			= -I inc -I libft/inc
 LIBS			= -L libft -lft
 
-SRC = $(addprefix $(SRC_PATH)/, ft_create_zones.c \
-	  ft_free.c \
-	  ft_free_utils.c \
-	  ft_realloc.c \
-	  ft_malloc.c \
-	  ft_print_hexa.c \
-	  ft_search_free_block.c \
-	  ft_show_mem_alloc.c)
+SRC = $(addprefix $(SRC_PATH)/, alloc_size.c \
+	  free.c \
+	  give_large.c \
+	  give_not_large.c \
+	  malloc.c \
+	  malloc_init.c \
+	  realloc.c)
 
 SRC_PATH			= sources
 
