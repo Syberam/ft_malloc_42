@@ -6,7 +6,7 @@
 #    By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/22 09:39:31 by sbonnefo          #+#    #+#              #
-#    Updated: 2018/10/23 19:31:25 by sbonnefo         ###   ########.fr        #
+#    Updated: 2018/10/23 19:54:47 by sbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,11 +38,11 @@ libft:
 	@make -C libft
 
 norme:
-	@echo "\033[30;42m                   NORME SOURCES                   \033[0m"
+	@echo "\033[30;42m                   NORME SOURCES                  \033[0m"
 	@norminette $(SRC_PATH)/*.c
-	@echo "\033[30;42m                    NORME .H                       \033[0m"
+	@echo "\033[30;42m                    NORME .H                      \033[0m"
 	@norminette $(INC_PATH)/*.h
-	@echo "\033[30;42m                   NORME LIBFT                     \033[0m"
+	@echo "\033[30;42m                   NORME LIBFT                    \033[0m"
 
 symlink:
 	@if [ ! -e ${LINKED_NAME} ]; then \
@@ -51,11 +51,11 @@ symlink:
 	fi
 
 $(NAME): $(SRC)
-	@printf "\e[32m------------------------------------------------------\e[0m\n"
+	@printf "\e[32m-----------------------------------------------------\e[0m\n"
 	@$(CC) $(INCS) $(FLAG) $(SRC) $(LIBS) -o $(NAME)
 	@printf "\e[34m%-51s\e[0m" "$@"
 	@printf "\e[32m[✔]\e[0m\n"
-	@printf "\e[32m------------------------------------------------------\e[0m\n"
+	@printf "\e[32m-----------------------------------------------------\e[0m\n"
 
 tests: $(NAME)
 	@$(CC) -o test0 test/test0.c
@@ -74,12 +74,12 @@ tests: $(NAME)
 	@echo "$(GREEN)compil:$(RESET)\ttest5"
 
 clean:
-#	@make -C libft $@
+	@make -C libft $@
 	@/bin/rm -rf .obj;
 	@printf "\e[32m[✔]\e[0m Project cleaned.\n"
 
 fclean: clean
-#	@make -C libft $@
+	@make -C libft $@
 	@/bin/rm -f $(NAME) $(LINKED_NAME);
 	@/bin/rm -f test/unit;
 	@printf "\e[32m[✔]\e[0m Project fcleaned.\n"
