@@ -6,14 +6,14 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 13:12:03 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/23 19:48:41 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/24 14:47:40 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MALLOC_H
 # define MALLOC_H
 
-# include "../libft/libft.h"
+# include "libft.h"
 # include <unistd.h>
 # include <sys/mman.h>
 
@@ -55,7 +55,7 @@ void					*ft_extend_allocs(size_t size);
 void					*ft_give_not_large(size_t size);
 void					*ft_give_large(size_t size);
 
-void					prepare_headers(void *link);
+void					prepare_headers(void *link, size_t size);
 void					free(void *ptr);
 
 /*	

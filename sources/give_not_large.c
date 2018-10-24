@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 16:03:16 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/23 19:38:36 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/24 12:27:49 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ static void	*ft_give_map(void *zone, enum e_alloc_size kind)
 
 	alloc_size = (kind == IS_TINY) ? TINY_ZONE : SMALL_ZONE;
 	block_size = (kind == IS_TINY) ? TINY : SMALL;
-	if(!(addr = mmap(NULL, alloc_size,
-			PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)))
+	if((addr = mmap(NULL, alloc_size,
+			PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) ==
+			MAP_FAILED)
 		return (NULL);
 	tmp = ((t_zonehead *)zone)->frees;
 	i = 0;
