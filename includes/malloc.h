@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 13:12:03 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/24 14:47:40 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/25 17:17:58 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,10 @@ enum								e_alloc_size
 
 typedef struct			s_zonehead
 {
-	enum e_alloc_size	kind;
-	int					align;
+	void				*start;
 	void				*fills;
-	void				*frees;
 	void				*next;
+	void				*end;
 }						t_zonehead;
 
 t_zonehead				*g_masterhead;
@@ -51,6 +50,7 @@ enum e_alloc_size		ft_find_alloc_size(size_t size);
 void					*malloc(size_t size);
 void					*realloc(void *ptr, size_t size);
 void					*ft_init_malloc(void);
+void					*ft_extend_zone_header(void);
 void					*ft_extend_allocs(size_t size);
 void					*ft_give_not_large(size_t size);
 void					*ft_give_large(size_t size);
@@ -58,46 +58,212 @@ void					*ft_give_large(size_t size);
 void					prepare_headers(void *link, size_t size);
 void					free(void *ptr);
 
-/*	
-t_zonehead				*ft_was_last_zone(t_zonehead *head, int kind);
-t_zonehead				*ft_find_next_zone(t_zonehead *header, int kind);
-t_zonehead				*ft_find_prev_zone(t_zonehead *header, int kind);
-
-char					ft_check_master_head(void);
-char					ft_which_size(size_t size);
-char					*ft_print_hexa(void *addr);
-
-void					*malloc(size_t size);
-
-void					*ft_search_free_block(void *z_addr, char size);
-void					*ft_search_notfull_zone(char kind);
-void					*ft_newlarge(size_t size);
-void					*ft_create_master_header(size_t size);
-void					*ft_create_new_zone(char kind);
-void					*ft_find_zone(void *zhead, void *ptr, int zone_kind);
-void					ft_unfreed_blck(void);
-void					show_alloc_mem(void);
-void					ft_set_mheader_start(t_zonehead *start, int kind);
-
-t_zonehead				*ft_set_master_header(void);
-*/
 #endif
 
-/*
-
-void *frees
-void *filled
-                   void *addr
-|____HEAD____|  _/ void *next
-|   *frees   |/
-|   *filled  |\_
-|            |   \ void *addr
-|   *next    |     void *next_start
-| kind       |
-
-
-
-
-
-
-*/
+/***************************** GENERAL SCHEM ***********************************
+ *    MASTER  |  ZONE HEADER  |
+ *
+ *    |"""""|
+ *    |     |
+ *    |-----|
+ *                |"""""|-> META     |""||""||""||""||""||""||""||""""""""""|
+ *  TINY/SMALL {  |     |    |       |__||__||__||__||__||__||__||__________|
+ *                |-----|    |-> DATA[  ][  ][  ][  ][  ][  ][  ][          ]
+ *                |"""""|
+ *   EMPTY     {  |     |
+ *                |-----|
+ *                |"""""|
+ *   LARGE     {  |     |-> DATA     [                              ]
+ *                |-----|
+ *                |"""""|
+ *   EMPTY     {  |     |
+ *                |-----|
+ *                :     :
+ *                : ... :
+ *                :     :
+ *                |"""""|
+ *   EMPTY     {  |     |
+ *                |-----|
+ *
+ ******************************************************************************/
+/*getpagesize()********** WHITOUT frees ***********************************
+ *
+ * HEADER MASTER
+ *    ===============
+ *   ||             ||
+ *   ||   start     ||-------------
+ *   ||   fills     ||--------     |
+ *   ||   next      ||-----   |    |
+ *   ||   end       ||--   |  |    |
+ *   ||             ||  |  |  |    |
+ *    ===============   |  |  |    |
+ *                      |  |  |    V             NULL
+ * Z                    |  |  |    ____________   ^
+ * O                    |  |  |   |            |  |   [  ][  ][            ]
+ * N                    |  |  |   |   next     |--    [  ][  ][            ]
+ * E                    |  |  |   |   start    |------^   ^                ^
+ * S                    |  |  |   |   fills    |----------|                |
+ *                      |  |  |   |   end      |---------------------------
+ * H                    |  |  |   |            |
+ * E                    |  |  |    ____________   ^                 TINY/SMALL
+ * A                    |  |  |    ____________   |
+ * D                    |  |  |   |            |  |
+ * E                    |  |  |   |   next     |--
+ * R                    |  |  |   |   start    |
+ * S                    |  |  |   |   fills    |
+ *                      |  |  |   |   end      |
+ *                      |  |  |   |            |
+ *                      |  |  |    ____________   ^
+ *                      |  |  |    ____________   |
+ *                      |  |  |-> |            |  |
+ *                      |  |      |   next     |--
+ *                      |  |      |   start    |---> [                        ]
+ *                      |  |      |   fills    |                             ^
+ *                      |  |      |   end      |-----------------------------|
+ *                      |  |      |            |
+ *                      |  |       ____________                          LARGE
+ *                      |  |       ____________
+ *                      |  |----> |            |
+ *                      |         |            |
+ *                      |         !            !
+ *                      |         :            :
+ *                      |         :            :
+ *                      |         :            :
+ *                      |         ¡            ¡
+ *                      |         |            |
+ *                      |-------> |____________|
+ *
+ *
+ *        # With free header, Next point to next free zone
+ *        # and HEADER_MASTER->next point to first free header
+ *
+ ******************************************************************************/
+/***************** WHITOUT frees : Zones Header LARGE Focus ********************
+ *
+ * ZONE HEADER           ^
+ *    ===============    |       ?    fills == NULL
+ *   ||             ||   |      // && ? size != sizeof(t_zonehead) * NB_BLOCKS
+ *   ||   next      ||---                ==> LARGE
+ *   ||   start     ||-------------.
+ *   ||   fills     || ? == NULL x |
+ *   ||   end       ||--           |
+ *   ||             ||  |          |
+ *    ===============   |          |
+ *                      |          V
+ * L                    |          ____________
+ * A                    |         |            |
+ * R                    |         |            |
+ * G   size =           |         |            |
+ * E     end - start    |         |            |
+ *                      |         |            |
+ * C                    |         |            |
+ * A                    |------->  ____________
+ * S
+ * E
+ *
+ ******************************************************************************/
+/************* AFTER ZONE CREATION : Zones Header TINY/SMALL Focus *************
+ *                                TRANSITORY CASE
+ *
+ *
+ * ZONE HEADER           ^
+ *    ===============    |
+ *   ||             ||   |
+ *   ||   next      ||---
+ *   ||   start     ||-------------.     ? start == start->next ==> TINY/SMALL
+ *   ||   fills     || = NULL      |
+ *   ||   end       ||--           |
+ *   ||             ||  |          |
+ *    ===============   |          |
+ *                      |          V
+ *                      |         .____________.        --->.____________.
+ *                      |  [•]--> |            |       |    |            |
+ *                      |         |fills = NULL|       |    |            |
+ *                      |         !   start    !-------     !            !
+ *                      |         :   end      :-------     :            :
+ *                      |         : next = [•] :       |    :            :
+ *                      |         :            :       |    :            :
+ *                      |         ¡            ¡       |    ¡            ¡
+ *                      |         |            |       |    |            |
+ *                      |-------> |____________|        --->|____________|
+ *
+ ******************************************************************************/
+/************ AFTER FULL ZONE FREE : Zones Header TINY/SMALL Focus *************
+ *
+ *
+ *
+ * ZONE HEADER           ^
+ *    ===============    |
+ *   ||             ||   |
+ *   ||   next      ||---
+ *   ||   start     ||-------------.     ? start == start->next ==> TINY/SMALL
+ *   ||   fills     || = NULL      |
+ *   ||   end       ||--           |
+ *   ||             ||  |          |
+ *    ===============   |          |
+ *                      |          V
+ *                      |         .____________.        --->.____________.
+ *                      |  [•]--> |            |       |    |            |
+ *                      |         |fills = NULL|       |    |            |
+ *                      |         !   start    !-------     !            !
+ *                      |         :   end      :-------     :            :
+ *                      |         : next = [•] :       |    :            :
+ *                      |         :            :       |    :            :
+ *                      |         ¡            ¡       |    ¡            ¡
+ *                      |         |            |       |    |            |
+ *                      |-------> |____________|        --->|____________|
+ *
+ ******************************************************************************/
+/*************** WHITOUT frees : Zones Header TINY/SMALL Focus *****************
+ *
+ * ZONE HEADER           ^
+ *    ===============    |
+ *   ||             ||   |
+ *   ||   next      ||---'
+ *   ||   start     ||-------------.
+ *   ||   fills     ||--------.    |
+ *   ||   end       ||--.     |    |
+ *   ||             ||  |     |    |
+ *    ===============   |     |    |
+ *                      |     |    V              ^
+ * Z                    |     |    ____________   |   .---> .____________.
+ * O                    |     |   |            |  |   |     |            |
+ * N                    |     |   |   fills    |--'   |     | USER  DATA |
+ * E   size =           |     |   |   start    |------'     |            |
+ * S     end->end       |     |   |   end      |----------> |------------|
+ *     - start->start   |     |   |   next     |----->[•]   |    FREE    |
+ * H                    |     |   |            |            |    SPACE   |
+ * E                    |     |    ____________   ^          ____________
+ * A                    |     |    ____________   |    --->  ____________
+ * D                    |     |   |            |  |   |     |            |
+ * E                    |     |   |   fills    |--    |     |    DATA    |
+ * R                    |     |   |   start    |------      |            |
+ * S                    |     |   |   end      |----------> |------------|
+ *                      |     |   |   next     |----->[•]   |            |
+ *                      |     |   |            |            |            |
+ *                      |     |    ____________   ^          ____________
+ *                      |     |    ____________   |    --->  ____________
+ *                      |     |-> |            |  |   |     |            |
+ *                      |         |   fills    |--    |     |    DATA    |
+ *                      |         |   start    |------      |            |
+ *                      |         |   end      |----------> |------------|
+ *                      |         |   next     |----->[•]   |            |
+ *                      |         |            |            |            |
+ *                      |          ____________              ____________
+ *                      |
+ *                      |
+ *                      |
+ *                      |
+ *                      |
+ *                      |  [•]---> ____________         ---> ____________
+ *                      |         |            |       |    |            |
+ *                      |         |fills = NULL|       |    |            |
+ *                      |         !   start    !-------     !            !
+ *                      |         :   end      :-------     :            :
+ *                      |         : next = [•] :       |    :            :
+ *                      |         :            :       |    :            :
+ *                      |         ¡            ¡       |    ¡            ¡
+ *                      |         |            |       |    |            |
+ *                      |-------> |____________|        --->|____________|
+ *
+ ******************************************************************************/
