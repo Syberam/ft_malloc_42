@@ -6,12 +6,12 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 17:52:55 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/23 15:16:50 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/25 18:57:41 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
+/*
 static void	ft_free_map(void *to_free, void *prev)
 {
 	size_t		size;
@@ -82,25 +82,51 @@ static void	ft_free_link(void *ptr, void *where_free, void *prev)
 	if (((t_zonehead *)where_free)->fills == NULL)
 		ft_check_free_map(where_free);
 }
+*/
+void		ft_free_not_large(void	*header, void *prev_head, void *link)
+{
+	(void)header;
+	(void)prev_head;
+	(void)link;
+}
+
+void		ft_free_large(void	*header, void *prev_head)
+{
+	size_t	size;
+
+	if (header == NULL)
+		return ;
+	size = ((t_zonehead *)header)->end - ((t_zonehead *)header)->start;
+	munmap(((t_zonehead *)header)->start, size);
+	if (prev_head == NULL)
+		g_masterhead->fills = ((t_zonehead *)header)->next;
+	else
+		((t_zonehead *)prev_head)->next = ((t_zonehead *)header)->next;
+	((t_zonehead *)header)->next = g_masterhead->next;
+	g_masterhead->next = header;
+	((t_zonehead *)header)->start = NULL;
+	((t_zonehead *)header)->fills = NULL;
+	((t_zonehead *)header)->end = NULL;
+}
 
 void		free(void *ptr)
 {
 	void	*tmp_prev;
 	void	*tmp;
-	int		kinds[3];
 
-	kinds[0] = TINY_ZONE;
-	kinds[1] = SMALL_ZONE;
-	kinds[2] = SMALL_ZONE + 16;
 	if (ptr == NULL)
 		return ;
 	tmp = g_masterhead->fills;
 	tmp_prev = NULL;
-	while (tmp && (ptr < tmp || ptr > tmp + kinds[((t_zonehead *)tmp)->kind]))
+	while (tmp)
 	{
+		if (((t_zonehead *)tmp)->start == ptr)
+			ft_free_large(tmp, tmp_prev);
+		else if (((t_zonehead *)tmp)->fills != NULL
+			&& ptr >= ((t_zonehead *)((t_zonehead *)tmp)->start)->start
+			&& ptr <= ((t_zonehead *)((t_zonehead *)tmp)->end)->start)
+			ft_free_not_large(tmp, tmp_prev, ptr);
 		tmp_prev = tmp;
 		tmp = ((t_zonehead *)tmp)->next;
 	}
-	if (tmp)
-		ft_free_link(ptr, tmp, tmp_prev);
 }

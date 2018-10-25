@@ -6,14 +6,15 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 16:03:16 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/24 12:27:49 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/25 19:23:08 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
+/*
 static void	*ft_give_map(void *zone, enum e_alloc_size kind)
 {
+	kind = 0;
 	size_t	alloc_size;
 	size_t	block_size;
 	size_t	i;
@@ -40,11 +41,12 @@ static void	*ft_give_map(void *zone, enum e_alloc_size kind)
 static void	*ft_give_new_zone(enum e_alloc_size kind)
 {
 	void	*zone;
+	kind = 0;
 
 	if (g_masterhead->frees == NULL)
 		if (!(g_masterhead->frees = ft_extend_allocs(getpagesize())))
 			return (NULL);
-	zone = g_masterhead->frees;
+	zone = g_masterhead->next;
 	g_masterhead->frees = ((t_zonehead *)zone)->next;
 	((t_zonehead *)zone)->next = g_masterhead->fills;
 	g_masterhead->fills = zone;
@@ -57,11 +59,13 @@ static void	*ft_give_new_zone(enum e_alloc_size kind)
 static void	*ft_give_free_link(void *zone, enum e_alloc_size kind)
 {
 	void	*addr;
+	kind = 0;
 
 	if (((t_zonehead *)zone)->frees == NULL)
 		if (!(zone = ft_give_map(zone, kind)))
 			return (NULL);
-	addr = ((t_zonehead *)zone)->frees;
+	addr = ((t_zonehead *)zone)->next;
+	
 	if (addr)
 	{
 		((t_zonehead *)zone)->frees = ((t_zonehead *)addr)->next;
@@ -70,13 +74,14 @@ static void	*ft_give_free_link(void *zone, enum e_alloc_size kind)
 	}
 	return (addr);
 }
-
+*/
 static void	*ft_find_free_zone(enum e_alloc_size kind)
 {
 	void	*head;
 
+	kind = 0;
 	head = g_masterhead->fills;
-	while (head)
+/*	while (head)
 	{
 		if (((t_zonehead *)head)->kind == kind && ((t_zonehead *)head)->frees)
 			return (head);
@@ -84,7 +89,7 @@ static void	*ft_find_free_zone(enum e_alloc_size kind)
 	}
 	if (head == NULL)
 		head = ft_give_new_zone(kind);
-	return (head);
+*/	return (head);
 }
 
 void	*ft_give_not_large(size_t size)
@@ -94,11 +99,11 @@ void	*ft_give_not_large(size_t size)
 
 	kind = (size < SMALL) ? IS_TINY : IS_SMALL;
 	addr = ft_find_free_zone(kind);
-	addr = ft_give_free_link(addr, kind);
+/*	addr = ft_give_free_link(addr, kind);
 	if (addr)
 	{
 		((t_zonehead *)addr)->fills = ((t_zonehead *)addr)->frees;
 		((t_zonehead *)addr)->frees = ((t_zonehead *)addr)->fills + size;
 	}
-	return (addr);
+*/	return (addr);
 }

@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:21:47 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/25 09:39:48 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/25 18:23:55 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void					*malloc(size_t size)
 
 	if ((long)size < 0)
 		return (NULL);
-	//g_masterhead = ft_init_malloc();
+	g_masterhead = ft_init_malloc();
 	size = ft_align_size(size);
 	alloc_kind = ft_find_alloc_size(size);
 	do_alloc[0] = ft_give_not_large;
