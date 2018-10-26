@@ -6,13 +6,13 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 10:00:56 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/26 10:19:08 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/26 16:27:53 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void			*ft_give_header(void)
+void			*ft_give_new_header(void)
 {
 	void		*new_header;
 
@@ -28,7 +28,7 @@ void		*ft_give_large(size_t size)
 	void	*header;
 	void	*addr;
 
-	if (!(header = ft_give_header()))
+	if (!(header = ft_give_new_header()))
 		return (NULL);
 	if ((addr = mmap(NULL, size,
 			PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) ==

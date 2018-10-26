@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 16:03:16 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/26 12:00:23 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/26 16:27:04 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,26 +75,46 @@ static void	*ft_give_free_link(void *zone, enum e_alloc_size kind)
 	return (addr);
 }
 */
+
+static void	*ft_give_block_header(void *zone_head, enum e_alloc_size kind)
+{
+	void	*block_head;
+	size_t	need_size;
+
+	if (!zone_head)
+		return (NULL);
+	need_size = (kind == IS_TINY) ? (size_t)TINY_ZONE : (size_t)SMALL_ZONE;
+	block_head = ((t_zonehead *)((t_zonehead *)zone_head)->fills)->next;
+	((t_zonehead *)block_head)->fills = ((t_zonehead *)zone_head)->fills;
+	((t_zonehead *)zone_head)->fills = block_head;
+	if (!((t_zonehead *)block_head)->next)
+		((t_zonehead *)block_head)->next = block_head + sizeof(t_zonehead);
+	if (((t_zonehead *)block_head)->next == ((t_zonehead *)zone_head)->start +
+		need_size)
+		((t_zonehead *)block_head)->next = NULL;
+	return (block_head);
+}
+
 static void	*ft_find_free_zone_header(enum e_alloc_size kind)
 {
 	void	*zone_head;
-	size_t	need_zone;
-	size_t	cur_zone;
+	size_t	need_size;
+	size_t	zone_size;
 
-	need_zone = (kind == IS_TINY) ? (size_t)TINY_ZONE : (size_t)SMALL_ZONE;
+	need_size = (kind == IS_TINY) ? (size_t)TINY_ZONE : (size_t)SMALL_ZONE;
 	zone_head = g_masterhead->fills;
 	while (zone_head)
 	{
-		cur_zone = (!((t_zonehead *)zone_head)->fills) ? 0 :
-			((t_zonehead *)((t_zonehead *)zone_head)->end)->end -
+		zone_size = (!((t_zonehead *)zone_head)->fills) ? 0 :
+			((t_zonehead *)zone_head)->end -
 			((t_zonehead *)((t_zonehead *)zone_head)->start)->start;
-		if (cur_zone == need_zone &&
+		if (zone_size == need_size &&
 			((t_zonehead *)((t_zonehead *)zone_head)->fills)->next)
 			return (zone_head);
 		zone_head = ((t_zonehead *)zone_head)->next;
 	}
 	if (zone_head == NULL)
-		zone_head = ft_give_new_zone(kind);
+		zone_head = ft_give_new_header();
 	return (zone_head);
 }
 
@@ -104,7 +124,10 @@ void	*ft_give_not_large(size_t size)
 	enum e_alloc_size	kind;
 
 	kind = (size < SMALL) ? IS_TINY : IS_SMALL;
-	addr = ft_find_free_zone_header(kind);
+	if (!(addr = ft_find_free_zone_header(kind)))
+		return (NULL);
+	if (!(addr = ft_give_block_header(addr, kind)))
+		return (NULL);
 
 /*	addr = ft_give_free_link(addr, kind);
 	if (addr)
