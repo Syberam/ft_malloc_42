@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 14:11:08 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/25 19:23:49 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/26 11:27:22 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,38 @@ static void		*ft_find_head(void *ptr)
 
 void		*realloc(void *ptr, size_t size)
 {
-	void	*head_ref;
+	void	*head;
 	void	*tmp;
 
 	if (ptr == NULL)
 		return (malloc(size));
 	if (size == 0)
 		return (malloc(size));
-	head_ref = ft_find_head(ptr);
+//	ft_putendl("ICI0");
+	head = ft_find_head(ptr);
+/*	if (!(head = ft_find_head(ptr)))
+		return (ptr);
+	ft_putendl("ICI1");
+	size_t	deduc_size;
+	ft_putendl("ICI2");
+	deduc_size = (size_t)(((t_zonehead *)head)->end -
+			((t_zonehead *)head)->start);
+	ft_putendl("ICI3");
+	ft_putnbr(deduc_size);
+	ft_putendl("");
+	ft_putendl("ICI4");
+*///	printf("alloc size %lu",(((t_zonehead *)head)->end - ((t_zonehead *)head)->start));
 	/*	if (((t_zonehead *)head_ref)->fills == NULL)
 	{
-*/		tmp = ptr;
+*/
+	if (!head || size > (size_t)(((t_zonehead *)head)->end
+				- ((t_zonehead *)head)->start))
+	{
+		tmp = ptr;
 		ptr = malloc(size);
 		ptr = ft_memcpy(ptr, tmp, size);
 		free(tmp);
+	}
 /*	}
 */
 	/* if size <= get old block size ->move cursor;

@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 19:06:56 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/25 19:10:25 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/26 11:50:09 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include <unistd.h>
 # include <sys/mman.h>
+#include <stdio.h>
 
 # define TINY_ZONE					(size_t)(getpagesize() * 0)
 # define SMALL_ZONE					(size_t)(getpagesize() * 0)
@@ -270,6 +271,9 @@ void					ft_free_large(void	*header, void *prev_head);
 **                      |         ¡            ¡       |    ¡            ¡
 **                      |         |            |       |    |            |
 **                      |-------> |____________|        --->|____________|
+**
+**
+**    if FULL zone_header->fills->next = NULL;
 **
 ** *****************************************************************************
 */

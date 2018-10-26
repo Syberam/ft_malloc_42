@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:54:38 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/25 18:33:30 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/26 11:33:27 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	*ft_extend_allocs(size_t size)
 	return (addr);
 }
 */
+
 void	*ft_extend_zone_header( void )
 {
 	void	*new_header;

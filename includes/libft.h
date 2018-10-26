@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/30 10:21:08 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/08/07 13:48:27 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/26 11:20:37 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void				ft_putnbr(int n);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putendl_fd(char const *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
+char				*ft_print_hexa(void *addr);
 
 char				*ft_strnew(size_t size);
 char				*ft_strmap(char const *s, char (*f)(char));

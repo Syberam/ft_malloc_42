@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 10:00:56 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/25 18:43:18 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/26 10:19:08 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void		*ft_give_large(size_t size)
 			MAP_FAILED)
 		return (NULL);
 	((t_zonehead *)header)->start = addr;
-	((t_zonehead *)header)->end = addr + size;;
+	((t_zonehead *)header)->end = addr + size;
 	((t_zonehead *)header)->fills = NULL;
 	return (addr);
 }
