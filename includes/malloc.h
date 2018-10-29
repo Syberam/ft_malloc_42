@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 19:06:56 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/26 16:27:40 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/29 16:00:56 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,6 @@ void					*ft_give_new_header(void);
 
 void					prepare_headers(void *link, size_t size);
 void					free(void *ptr);
-void					ft_free_not_large(void	*header, void *prev_head,
-							void *link);
-void					ft_free_large(void	*header, void *prev_head);
 
 #endif
 
