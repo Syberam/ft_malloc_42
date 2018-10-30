@@ -6,7 +6,7 @@
 #    By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/22 09:39:31 by sbonnefo          #+#    #+#              #
-#    Updated: 2018/10/30 12:16:17 by sbonnefo         ###   ########.fr        #
+#    Updated: 2018/10/30 18:45:45 by sbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ ifeq ($(HOSTTYPE),)
 endif
 
 NAME= libft_malloc_${HOSTTYPE}.so
-LINKED_NAM			E= libft_malloc.so
+LINKED_NAME= libft_malloc.so
 
 CC= gcc
 FLAG= -shared -Wall -Werror -Wextra -Wpadded
