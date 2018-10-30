@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:21:47 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/25 18:23:55 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/30 17:18:03 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void					*malloc(size_t size)
 	enum e_alloc_size	alloc_kind;
 	void				*(*do_alloc[3])(size_t size);
 
+	ft_putendl("_____________________________________________________________");
+	ft_putendl("MALLOC ci");
 	if ((long)size < 0)
 		return (NULL);
 	g_masterhead = ft_init_malloc();
@@ -27,5 +29,10 @@ void					*malloc(size_t size)
 	do_alloc[1] = ft_give_not_large;
 	do_alloc[2] = ft_give_large;
 	addr = do_alloc[alloc_kind](size);
+	if (!addr)
+		ft_putendl("addr malloc pb");
+	else
+		ft_putendl("addr malloc OK");
+	ft_putendl("_____________________________________________________________");
 	return (addr);
 }

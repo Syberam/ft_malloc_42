@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 17:52:55 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/29 15:53:26 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/30 17:16:30 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void		free(void *ptr)
 	void	*tmp_prev;
 	void	*tmp;
 
+	ft_putendl("_____________________________________________________________");
+	ft_putendl("FREEEci");
 	if (ptr == NULL)
 		return ;
 	tmp = g_masterhead->fills;
@@ -70,10 +72,11 @@ void		free(void *ptr)
 		if (((t_zonehead *)tmp)->start == ptr)
 			ft_free_large(tmp, tmp_prev);
 		else if (((t_zonehead *)tmp)->fills != NULL
-			&& ptr >= ((t_zonehead *)((t_zonehead *)tmp)->start)->start
-			&& ptr <= ((t_zonehead *)((t_zonehead *)tmp)->end)->start)
+				&& ptr >= ((t_zonehead *)((t_zonehead *)tmp)->start)->start
+				&& ptr <= ((t_zonehead *)tmp)->end)
 			ft_free_not_large(tmp, ptr);
 		tmp_prev = tmp;
 		tmp = ((t_zonehead *)tmp)->next;
 	}
+	ft_putendl("_____________________________________________________________");
 }

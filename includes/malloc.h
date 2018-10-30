@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 19:06:56 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/29 16:00:56 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/30 15:32:29 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <sys/mman.h>
 #include <stdio.h>
 
-# define TINY_ZONE					(size_t)(getpagesize() * 0)
-# define SMALL_ZONE					(size_t)(getpagesize() * 0)
+# define TINY_ZONE					(size_t)(getpagesize() * 8)
+# define SMALL_ZONE					(size_t)(getpagesize() * 64)
 # define NB_BLOCKS					(size_t)128
 # define TINY						(size_t)(TINY_ZONE/NB_BLOCKS)
 # define SMALL						(size_t)(SMALL_ZONE/NB_BLOCKS)
@@ -49,15 +49,14 @@ size_t					ft_align_size(size_t size);
 enum e_alloc_size		ft_find_alloc_size(size_t size);
 
 void					*malloc(size_t size);
+void					*calloc(size_t count, size_t size);
 void					*realloc(void *ptr, size_t size);
 void					*ft_init_malloc(void);
 void					*ft_extend_zone_header(void);
-void					*ft_extend_allocs(size_t size);
 void					*ft_give_not_large(size_t size);
 void					*ft_give_large(size_t size);
 void					*ft_give_new_header(void);
 
-void					prepare_headers(void *link, size_t size);
 void					free(void *ptr);
 
 #endif

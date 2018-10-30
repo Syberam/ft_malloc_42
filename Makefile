@@ -6,7 +6,7 @@
 #    By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/22 09:39:31 by sbonnefo          #+#    #+#              #
-#    Updated: 2018/10/23 19:54:47 by sbonnefo         ###   ########.fr        #
+#    Updated: 2018/10/30 12:16:17 by sbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,13 @@ ifeq ($(HOSTTYPE),)
 	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
 endif
 
-NAME			= libft_malloc_${HOSTTYPE}.so
-LINKED_NAME		= libft_malloc.so
+NAME= libft_malloc_${HOSTTYPE}.so
+LINKED_NAM			E= libft_malloc.so
 
-CC				= gcc
-FLAG			= -shared -Wall -Werror -Wextra -Wpadded
-INCS			= -I includes
-LIBS			= -L libft -lft
+CC= gcc
+FLAG= -shared -Wall -Werror -Wextra -Wpadded
+INCS= -I includes
+LIBS= -L libft -lft
 
 SRC = $(addprefix $(SRC_PATH)/, alloc_size.c \
 	  free.c \
@@ -30,7 +30,7 @@ SRC = $(addprefix $(SRC_PATH)/, alloc_size.c \
 	  malloc_init.c \
 	  realloc.c)
 
-SRC_PATH			= sources
+SRC_PATH= sources
 
 all: libft $(NAME) symlink
 
@@ -48,7 +48,7 @@ symlink:
 	@if [ ! -e ${LINKED_NAME} ]; then \
 		/bin/ln -s ${NAME} ${LINKED_NAME}; \
 		printf "\e[32m[Symlink created]\e[0m\n"; \
-	fi
+		fi
 
 $(NAME): $(SRC)
 	@printf "\e[32m-----------------------------------------------------\e[0m\n"
@@ -61,8 +61,8 @@ tests: $(NAME)
 	@$(CC) -o test0 test/test0.c
 	@echo "$(GREEN)compil:$(RESET)\ttest0"
 	@$(CC) -o test1 test/test1.c
-	@echo "$(GREEN)compil:$(RESET)\ttest1"	
-	@$(CC) -o test2 test/test2.c
+	@echo "$(GREEN)compil:$(RESET)\ttest1"
+	@$(	CC) -o test2 test/test2.c
 	@echo "$(GREEN)compil:$(RESET)\ttest2"
 	@$(CC) -o test3 test/test3.c
 	@echo "$(GREEN)compil:$(RESET)\ttest3"

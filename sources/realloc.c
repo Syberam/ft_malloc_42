@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 14:11:08 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/29 15:59:38 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/30 17:18:47 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,24 @@ void		*realloc(void *ptr, size_t size)
 {
 	void	*head;
 	void	*tmp;
+	size_t	old_size;
 
+	ft_putendl("_____________________________________________________________");
+	ft_putendl("REALLOC ci");
 	if (ptr == NULL)
 		return (malloc(size));
+	if (size == 0)
+		return (ptr);
 	head = ft_find_head(ptr);
-	if (!head || size > (size_t)(((t_zonehead *)head)->end
-				- ((t_zonehead *)head)->start))
+	if (head)
+		old_size = (((t_zonehead *)head)->end - ((t_zonehead *)head)->start);
+	if (!head || size > old_size)
 	{
 		tmp = ptr;
 		ptr = malloc(size);
 		ptr = ft_memcpy(ptr, tmp, size);
 		free(tmp);
 	}
+	ft_putendl("_____________________________________________________________");
 	return (ptr);
 }

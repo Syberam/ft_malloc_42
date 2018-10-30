@@ -6,24 +6,11 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:54:38 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/26 11:33:27 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/30 15:32:14 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-/*
-void	*ft_extend_allocs(size_t size)
-{
-	void			*addr;
-
-	if ((addr = mmap(NULL, size,
-			PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) ==
-			MAP_FAILED)
-		return (NULL);
-	prepare_headers(addr, size);
-	return (addr);
-}
-*/
 
 void	*ft_extend_zone_header( void )
 {
@@ -33,10 +20,7 @@ void	*ft_extend_zone_header( void )
 			PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) ==
 			MAP_FAILED)
 		return (NULL);
-	g_masterhead->next = new_header + sizeof(t_zonehead);
 	g_masterhead->end = new_header + getpagesize();
-	((t_zonehead *)new_header)->next = g_masterhead->fills;
-	g_masterhead->fills = new_header;
 	return (new_header);
 }
 

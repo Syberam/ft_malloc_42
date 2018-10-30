@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 10:00:56 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/26 16:27:53 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/10/30 15:41:36 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,16 @@ void			*ft_give_new_header(void)
 	void		*new_header;
 
 	new_header = g_masterhead->next;
+	if (new_header)
+		ft_putendl("new_header set");
+	else
+		ft_putendl("new_header NOT set");
 	if (new_header == NULL || g_masterhead->next == g_masterhead->end)
 		if (!(new_header = ft_extend_zone_header()))
 			return (NULL);
+	g_masterhead->next = new_header + sizeof(t_zonehead);
+	((t_zonehead *)new_header)->next = g_masterhead->fills;
+	g_masterhead->fills = new_header;
 	return (new_header);
 }
 
