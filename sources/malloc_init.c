@@ -36,7 +36,7 @@ void	*ft_init_malloc(void)
 		return (NULL);
 	master_header->start = master_header + sizeof(t_zonehead);
 	master_header->fills = NULL;
-	master_header->next = master_header->start; 
+	master_header->next = master_header->start;
 	master_header->end = master_header + getpagesize();
 	return (master_header);
 }

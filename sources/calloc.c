@@ -17,7 +17,7 @@ void	*calloc(size_t count, size_t size)
 	void	*addr;
 
 	if (!(addr = malloc(count * size)))
-		return NULL;
+		return (NULL);
 	ft_bzero(addr, count * size);
 	return (addr);
 }

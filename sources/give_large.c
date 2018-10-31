@@ -18,13 +18,22 @@ void			*ft_give_new_header(void)
 
 	new_header = g_masterhead->next;
 	if (new_header)
-		ft_putendl("new_header set");
+	{
+		ft_putstr("new_header set : ");
+		ft_print_hexa(new_header);
+		ft_putstr(" vs ");
+		ft_print_hexa(g_masterhead->end);
+		ft_putendl("");
+	}
 	else
 		ft_putendl("new_header NOT set");
 	if (new_header == NULL || g_masterhead->next == g_masterhead->end)
 		if (!(new_header = ft_extend_zone_header()))
 			return (NULL);
-	g_masterhead->next = new_header + sizeof(t_zonehead);
+	if (((t_zonehead *)new_header)->next)
+		g_masterhead->next = ((t_zonehead *)new_header)->next;
+	else
+		g_masterhead->next = new_header + sizeof(t_zonehead);
 	((t_zonehead *)new_header)->next = g_masterhead->fills;
 	g_masterhead->fills = new_header;
 	return (new_header);

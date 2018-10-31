@@ -23,7 +23,7 @@ static size_t		hexa_power(size_t nb)
 	return (power);
 }
 
-char				*ft_print_hexa(void *addr)
+void				ft_print_hexa(void *addr)
 {
 	size_t			pwr;
 	char			*hex;
@@ -45,5 +45,5 @@ char				*ft_print_hexa(void *addr)
 		i++;
 	}
 	ret[i] = 0;
-	return (ft_strdup(ret));
+	ft_putstr(ret);
 }
