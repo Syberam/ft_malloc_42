@@ -45,11 +45,16 @@ static void		ft_free_large(void	*head, void *prev_head)
 		ft_putstr(" ptr to free : ");
 		ft_print_hexa(((t_zonehead *)head)->start);
 		ft_putendl("");
+		ft_putstr(" master->fills : ");
+		ft_print_hexa(g_masterhead->fills);
+		ft_putendl("");
+		ft_putstr(" head        : ");
 		ft_print_hexa(head);
 		ft_putendl("");
-		ft_putstr(" head->next : ");
+		ft_putstr(" head->next  : ");
 		ft_print_hexa(((t_zonehead *)head)->next);
 		ft_putendl("");
+		ft_putstr(" prev_head   : ");
 		ft_print_hexa(prev_head);
 		ft_putendl("");
 	if (head == NULL)
