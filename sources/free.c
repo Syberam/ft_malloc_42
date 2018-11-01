@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "malloc.h"
-/*
+
 static void		ft_free_not_large(void	*head, void *link)
 {
 	void	*block_head;
@@ -36,7 +36,7 @@ static void		ft_free_not_large(void	*head, void *link)
 		((t_zonehead *)((t_zonehead *)head)->fills)->next;
 	((t_zonehead *)((t_zonehead *)head)->fills)->next = block_head;
 }
-*/
+
 static void		ft_free_large(void	*head, void *prev_head)
 {
 	size_t	size;
@@ -66,14 +66,13 @@ void		free(void *ptr)
 	tmp_prev = NULL;
 	while (tmp)
 	{
-//		ft_putendl("_____ FREE LOOP _________________________________________");
 		if (((t_zonehead *)tmp)->start == ptr)
 			ft_free_large(tmp, tmp_prev);
-	/*	else if (((t_zonehead *)tmp)->fills != NULL
+		else if (((t_zonehead *)tmp)->fills != NULL
 				&& ptr >= ((t_zonehead *)((t_zonehead *)tmp)->start)->start
 				&& ptr <= ((t_zonehead *)tmp)->end)
 			ft_free_not_large(tmp, ptr);
-	*/	tmp_prev = tmp;
+		tmp_prev = tmp;
 		tmp = ((t_zonehead *)tmp)->next;
 	}
 }

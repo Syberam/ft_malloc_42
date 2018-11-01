@@ -18,8 +18,8 @@
 # include <sys/mman.h>
 #include <stdio.h>
 
-# define TINY_ZONE					(size_t)(getpagesize() * 64)
-# define SMALL_ZONE					(size_t)(getpagesize() * 128)
+# define TINY_ZONE					(size_t)(getpagesize() * 128)
+# define SMALL_ZONE					(size_t)(getpagesize() * 512)
 # define NB_BLOCKS					(size_t)128
 # define TINY						(size_t)(TINY_ZONE/NB_BLOCKS)
 # define SMALL						(size_t)(SMALL_ZONE/NB_BLOCKS)
