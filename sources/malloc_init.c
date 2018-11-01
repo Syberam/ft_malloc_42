@@ -20,7 +20,7 @@ void	*ft_extend_zone_header( void )
 			PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) ==
 			MAP_FAILED)
 		return (NULL);
-	g_masterhead->end = new_header + getpagesize();
+	g_masterhead->end = new_header + (getpagesize() / sizeof(t_zonehead));
 	return (new_header);
 }
 
@@ -34,9 +34,9 @@ void	*ft_init_malloc(void)
 			PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) ==
 			MAP_FAILED)
 		return (NULL);
-	master_header->start = master_header + sizeof(t_zonehead);
+	master_header->start = master_header + 1;
 	master_header->fills = NULL;
 	master_header->next = master_header->start;
-	master_header->end = master_header + getpagesize();
+	master_header->end = master_header + (getpagesize() / sizeof(t_zonehead));
 	return (master_header);
 }

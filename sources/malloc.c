@@ -18,7 +18,6 @@ void					*malloc(size_t size)
 	enum e_alloc_size	alloc_kind;
 	void				*(*do_alloc[3])(size_t size);
 
-	ft_putendl("_______________________________________________ MALLOC IN ___");
 	if ((long)size < 0)
 		return (NULL);
 	g_masterhead = ft_init_malloc();
@@ -28,12 +27,5 @@ void					*malloc(size_t size)
 	do_alloc[1] = ft_give_not_large;
 	do_alloc[2] = ft_give_large;
 	addr = do_alloc[alloc_kind](size);
-	if (!addr)
-		ft_putendl("addr malloc pb");
-	else
-		ft_putendl("addr malloc OK");
-	ft_putstr("_______");
-	ft_print_hexa(addr);
-	ft_putendl("____________________________ MALLOC OUT ___");
 	return (addr);
 }

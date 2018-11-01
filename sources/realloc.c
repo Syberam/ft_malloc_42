@@ -49,11 +49,8 @@ void		*realloc(void *ptr, size_t size)
 	void	*tmp;
 	size_t	old_size;
 
-	ft_putendl("___ REALLOC IN _____________________________________________");
 	if (ptr == NULL)
 		return (malloc(size));
-//	if (size == 0)
-//		return (ptr);
 	head = ft_find_head(ptr);
 	if (head)
 		old_size = (((t_zonehead *)head)->end - ((t_zonehead *)head)->start);
@@ -64,6 +61,5 @@ void		*realloc(void *ptr, size_t size)
 		ptr = ft_memcpy(ptr, tmp, size);
 		free(tmp);
 	}
-	ft_putendl("____ REALLOC OUT ___________________________________________");
 	return (ptr);
 }

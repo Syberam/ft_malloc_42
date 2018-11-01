@@ -27,6 +27,11 @@ static void	*ft_give_block(void *zone_head, void *block_head,
 		return (NULL);
 		((t_zonehead *)block_head)->start = addr;
 		((t_zonehead *)zone_head)->end = addr + need_size;
+		ft_putstr("___ map addr ___ : ");
+		ft_print_hexa(((t_zonehead *)block_head)->start);
+		ft_putstr("___ map end ___ : ");
+		ft_print_hexa(((t_zonehead *)zone_head)->end);
+		ft_putendl("");
 		return (addr);
 	}
 	addr = ((t_zonehead *)block_head)->start;
@@ -38,6 +43,7 @@ static void	*ft_give_block_header(void *zone_head, enum e_alloc_size kind)
 	void	*block_head;
 	size_t	need_size;
 
+	ft_putendl("___ GIVE BLOCK HEADER IN  ___________________________________");
 	if (!zone_head)
 		return (NULL);
 	need_size = (kind == IS_TINY) ? (size_t)TINY_ZONE : (size_t)SMALL_ZONE;
@@ -52,6 +58,7 @@ static void	*ft_give_block_header(void *zone_head, enum e_alloc_size kind)
 	if (((t_zonehead *)block_head)->next == ((t_zonehead *)zone_head)->start +
 		need_size)
 		((t_zonehead *)block_head)->next = NULL;
+	ft_putendl("___ GIVE BLOCK HEADER OUT  __________________________________");
 	return (block_head);
 }
 
@@ -59,6 +66,7 @@ static void	*ft_fresh_header_zone( void )
 {
 	void	*heads_map;
 
+	ft_putendl("___ FRESH HEADER ZONE IN ____________________________________");
 	if ((heads_map = mmap(NULL, NB_BLOCKS * sizeof(t_zonehead),
 		PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) ==
 		MAP_FAILED)
@@ -67,6 +75,7 @@ static void	*ft_fresh_header_zone( void )
 	((t_zonehead *)heads_map)->start = NULL;
 	((t_zonehead *)heads_map)->end = NULL;
 	((t_zonehead *)heads_map)->next = heads_map;
+	ft_putendl("___ FRESH HEADER ZONE OUT ___________________________________");
 	return (heads_map);
 }
 
@@ -76,6 +85,7 @@ static void	*ft_find_free_zone_header(enum e_alloc_size kind)
 	size_t	need_size;
 	size_t	zone_size;
 
+	ft_putendl("___ FIND FREE ZONE HEADER IN ________________________________");
 	need_size = (kind == IS_TINY) ? (size_t)TINY_ZONE : (size_t)SMALL_ZONE;
 	zone_head = g_masterhead->fills;
 	while (zone_head)
@@ -92,6 +102,7 @@ static void	*ft_find_free_zone_header(enum e_alloc_size kind)
 		zone_head = ft_give_new_header();
 	((t_zonehead *)zone_head)->start = ft_fresh_header_zone();
 	((t_zonehead *)zone_head)->fills = NULL;
+	ft_putendl("___ FIND FREE ZONE HEADER OUT _______________________________");
 	return (zone_head);
 }
 
