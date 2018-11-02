@@ -29,6 +29,7 @@ SRC = $(addprefix $(SRC_PATH)/, alloc_size.c \
 	  malloc.c \
 	  malloc_init.c \
 	  calloc.c \
+	  show_alloc_mem.c \
 	  realloc.c)
 
 SRC_PATH= sources

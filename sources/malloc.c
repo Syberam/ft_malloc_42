@@ -27,5 +27,11 @@ void					*malloc(size_t size)
 	do_alloc[1] = ft_give_not_large;
 	do_alloc[2] = ft_give_large;
 	addr = do_alloc[alloc_kind](size);
-	return (addr);
+/*	ft_putendl("");
+	ft_putendl("=============================================================");
+	ft_putendl("");
+	ft_putstr("___MALLOC __ addr : ");
+	ft_print_hexa(addr);
+	ft_putendl("________________");
+*/	return (addr);
 }

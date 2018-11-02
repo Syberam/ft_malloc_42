@@ -18,8 +18,8 @@
 # include <sys/mman.h>
 #include <stdio.h>
 
-# define TINY_ZONE					(size_t)(getpagesize() * 128)
-# define SMALL_ZONE					(size_t)(getpagesize() * 512)
+# define TINY_ZONE					(size_t)(getpagesize() * 16)
+# define SMALL_ZONE					(size_t)(getpagesize() * 128)
 # define NB_BLOCKS					(size_t)128
 # define TINY						(size_t)(TINY_ZONE/NB_BLOCKS)
 # define SMALL						(size_t)(SMALL_ZONE/NB_BLOCKS)
@@ -58,6 +58,7 @@ void					*ft_give_large(size_t size);
 void					*ft_give_new_header(void);
 
 void					free(void *ptr);
+void					show_alloc_mem(void);
 
 #endif
 
@@ -257,7 +258,7 @@ void					free(void *ptr);
 **                      |         |   next     |----.       |            |
 **                      |         |            |    |       |            |
 **                      |          ____________     V        ____________
-**                      |                          [•]
+**        zone_size --->|                          [•]
 **                      |
 **                      |
 **                      |

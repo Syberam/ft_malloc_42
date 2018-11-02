@@ -12,7 +12,7 @@
 
 #include "malloc.h"
 
-static void	*ft_give_block(void *zone_head, void *block_head,
+static void	*ft_give_block(void *block_head,
 		enum e_alloc_size kind)
 {
 	void	*addr;
@@ -26,7 +26,7 @@ static void	*ft_give_block(void *zone_head, void *block_head,
 			MAP_FAILED)
 		return (NULL);
 		((t_zonehead *)block_head)->start = addr;
-		((t_zonehead *)zone_head)->end = addr + need_size;
+		((t_zonehead *)block_head)->end = (void *)need_size;
 		return (addr);
 	}
 	addr = ((t_zonehead *)block_head)->start;
@@ -80,9 +80,7 @@ static void	*ft_find_free_zone_header(enum e_alloc_size kind)
 	zone_head = g_masterhead->fills;
 	while (zone_head)
 	{
-		zone_size = (!((t_zonehead *)zone_head)->fills) ? 0 :
-			((t_zonehead *)zone_head)->end -
-			((t_zonehead *)((t_zonehead *)zone_head)->start)->start;
+		zone_size = (size_t)((t_zonehead *)zone_head)->end;
 		if (zone_size == need_size &&
 			((t_zonehead *)((t_zonehead *)zone_head)->fills)->next)
 			return (zone_head);
@@ -107,8 +105,7 @@ void	*ft_give_not_large(size_t size)
 		return (NULL);
 	if (!(block_head = ft_give_block_header(zone_head, kind)))
 		return (NULL);
-	if (!(addr = ft_give_block(zone_head, block_head, kind)))
+	if (!(addr = ft_give_block(block_head, kind)))
 		return (NULL);
-	((t_zonehead *)zone_head)->end = addr + size;
 	return (addr);
 }
