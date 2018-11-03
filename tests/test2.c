@@ -1,8 +1,11 @@
+#include "malloc.h"
+
 int main()
 {
 	int i;
 	char *addr;
 
+	ft_putendl(" TEST 2 START :");
 	i = 0;
 	while (i < 1024)
 	{

@@ -23,7 +23,7 @@ void			*ft_give_new_header(void)
 	if (((t_zonehead *)new_header)->next)
 		g_masterhead->next = ((t_zonehead *)new_header)->next;
 	else
-		g_masterhead->next = new_header + sizeof(t_zonehead);;
+		g_masterhead->next = new_header + sizeof(t_zonehead);
 	((t_zonehead *)new_header)->next = g_masterhead->fills;
 	g_masterhead->fills = new_header;
 	return (new_header);

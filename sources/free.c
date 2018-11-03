@@ -18,11 +18,11 @@ static void		ft_free_not_large(void	*head, void *link)
 	void	*prev_block_head;
 	void	*free_heads;
 
-/*	ft_putstr("___HEAD free_not_large ___");
+	ft_putstr("         ___HEAD free_not_large ___");
 	ft_print_hexa(head);
 	ft_putendl(" _________");
 	block_head = ((t_zonehead *)head)->fills;
-*/	prev_block_head = NULL;
+	prev_block_head = NULL;
 	block_head = NULL;
 	if (block_head)
 		free_heads = ((t_zonehead *)block_head)->next;
@@ -32,7 +32,11 @@ static void		ft_free_not_large(void	*head, void *link)
 		block_head = ((t_zonehead *)block_head)->fills;
 	}
 	if (block_head == NULL)
+	{
+		ft_putendl("       what ??? ");
+	ft_putendl("          ---------------------------------------------------");
 		return ;
+	}
 /*
 	ft_putstr("___ block head ___ : ");
 	ft_print_hexa(block_head);
@@ -55,12 +59,13 @@ static void		ft_free_not_large(void	*head, void *link)
 		((t_zonehead *)prev_block_head)->fills =
 			((t_zonehead *)block_head)->fills;
 //		ft_putendl("ICI 2");
-	((t_zonehead *)block_head)->end = ((t_zonehead *)block_head)->start;
+	((t_zonehead *)block_head)->end = 0;
 //		ft_putendl("ICI 3");
-	((t_zonehead *)block_head)->next = free_heads; 
+	((t_zonehead *)block_head)->next = free_heads;
 //		ft_putendl("ICI 4");
 	if (((t_zonehead *)head)->fills)
 		((t_zonehead *)((t_zonehead *)head)->fills)->next = block_head;
+	ft_putendl("          ---------------------------------------------------");
 }
 
 static void		ft_free_large(void	*head, void *prev_head)
@@ -79,17 +84,21 @@ static void		ft_free_large(void	*head, void *prev_head)
 	g_masterhead->next = head;
 	((t_zonehead *)head)->start = NULL;
 	((t_zonehead *)head)->end = NULL;
+	ft_putendl("          ---------------------------------------------------");
 }
 
 void		free(void *ptr)
 {
 	void	*tmp_prev;
 	void	*tmp;
+	void	*start;
+	void	*end;
 
-/*	ft_putstr("___FREE __ ptr : ");
+	ft_putendl("          ---------------------------------------------------");
+	ft_putstr("          ___FREE __ ptr : ");
 	ft_print_hexa(ptr);
 	ft_putendl("___________________");
-*/	if (ptr == NULL)
+	if (ptr == NULL)
 		return ;
 	tmp = g_masterhead->fills;
 	tmp_prev = NULL;
@@ -102,13 +111,22 @@ void		free(void *ptr)
 	ft_putendl("");
 */		if (((t_zonehead *)tmp)->start == ptr)
 			return ft_free_large(tmp, tmp_prev);
-		else if (((t_zonehead *)tmp)->fills != NULL
-				&& ptr >= ((t_zonehead *)((t_zonehead *)tmp)->start)->start
-				&& ptr <= ((t_zonehead *)((t_zonehead *)tmp)->start)->start
-				+ (size_t)((t_zonehead *)tmp)->end)
-			return ft_free_not_large(tmp, ptr);
+		else if (((t_zonehead *)tmp)->fills != NULL)
+		{
+			start = ((t_zonehead *)((t_zonehead *)tmp)->start)->start;
+			end = start + (size_t)((t_zonehead *)tmp)->end;
+			ft_putstr("          ");
+			ft_print_hexa(start);
+			ft_putstr(" <= ");
+			ft_print_hexa(ptr);
+			ft_putstr(" < ");
+			ft_print_hexa(end);
+			ft_putendl(" ???");
+			if (ptr >= start && ptr < end)
+				return ft_free_not_large(tmp, ptr);
+		}
 		tmp_prev = tmp;
 		tmp = ((t_zonehead *)tmp)->next;
 	}
-//	ft_putendl("");
+	ft_putendl("          --NOT FOUNT----------------------------------------");
 }

@@ -1,5 +1,6 @@
 int main()
 {
+	ft_putendl(" TEST 5 START :");
 	malloc(1024);
 	malloc(1024 * 32);
 	malloc(1024 * 1024);
