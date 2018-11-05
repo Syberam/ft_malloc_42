@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 16:03:16 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/30 15:54:27 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/11/05 11:52:28 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	*ft_give_block(void *block_head, size_t size)
 
 	addr = ((t_zonehead *)block_head)->start;
 	((t_zonehead *)block_head)->end = (void *)size;
-	
+
 	return (addr);
 }
 
@@ -39,11 +39,11 @@ static void	*ft_give_block_header(void *zone_head, size_t need_size)
 	if (!((t_zonehead *)block_head)->next)
 		((t_zonehead *)block_head)->next = block_head + sizeof(t_zonehead);
 	if (((t_zonehead *)block_head)->next == ((t_zonehead *)zone_head)->start +
-		need_size)
+			getpagesize())
 		((t_zonehead *)block_head)->next = NULL;
 	if (((t_zonehead *)block_head)->next)
 		((t_zonehead *)((t_zonehead *)block_head)->next)->start =
-		((t_zonehead *)block_head)->start + block_size;
+			((t_zonehead *)block_head)->start + block_size;
 	return (block_head);
 }
 
@@ -52,9 +52,9 @@ static void	*ft_fresh_header_zone(size_t need_size)
 	void	*heads_map;
 
 	if ((heads_map = mmap(NULL, NB_BLOCKS * sizeof(t_zonehead),
-		PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) ==
-		MAP_FAILED)
-	return (NULL);
+			PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) ==
+			MAP_FAILED)
+		return (NULL);
 	((t_zonehead *)heads_map)->fills = NULL;
 	if ((((t_zonehead *)heads_map)->start = mmap(NULL, need_size,
 			PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) ==
@@ -75,7 +75,8 @@ static void	*ft_find_free_zone_header(size_t need_size)
 	{
 		zone_size = (size_t)((t_zonehead *)zone_head)->end;
 		if (zone_size == need_size &&
-			((t_zonehead *)((t_zonehead *)zone_head)->fills)->next)
+				(!((t_zonehead *)zone_head)->fills ||
+				 ((t_zonehead *)((t_zonehead *)zone_head)->fills)->next))
 			return (zone_head);
 		zone_head = ((t_zonehead *)zone_head)->next;
 	}
@@ -103,7 +104,5 @@ void	*ft_give_not_large(size_t size)
 		return (NULL);
 	if (!(addr = ft_give_block(block_head, size)))
 		return (NULL);
-	ft_putstr(" _____ give not large : ");
-	ft_print_hexa(addr);
 	return (addr);
 }

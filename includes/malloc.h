@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 19:06:56 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/30 15:32:29 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/11/05 11:55:43 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <sys/mman.h>
 #include <stdio.h>
 
-# define TINY_ZONE					(size_t)(getpagesize() * 8)
+# define TINY_ZONE					(size_t)(getpagesize() * 16)
 # define SMALL_ZONE					(size_t)(getpagesize() * 64)
 # define NB_BLOCKS					(size_t)128
 # define TINY						(size_t)(TINY_ZONE/NB_BLOCKS)

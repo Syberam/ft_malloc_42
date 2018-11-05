@@ -5,7 +5,12 @@ int main()
 	int i;
 	char *addr;
 
+	ft_putendl("");
+	ft_putendl(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+	ft_putendl("");
 	ft_putendl(" TEST 2 START :");
+	ft_putendl("");
+	ft_putendl("");
 	i = 0;
 	while (i < 1024)
 	{

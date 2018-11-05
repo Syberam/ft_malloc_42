@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:21:47 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/30 17:18:03 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/11/05 11:43:54 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,6 @@ void					*malloc(size_t size)
 	do_alloc[0] = ft_give_not_large;
 	do_alloc[1] = ft_give_not_large;
 	do_alloc[2] = ft_give_large;
-	ft_putendl("");
-	ft_putendl("=============================================================");
-	ft_putendl("");
-	ft_putstr("___aligned size : ");
-	ft_putnbr(size);
-	ft_putendl("");
 	addr = do_alloc[alloc_kind](size);
-	ft_putendl("");
-	ft_putstr("___MALLOC __ addr : ");
-	ft_print_hexa(addr);
-	ft_putendl("________________");
 	return (addr);
 }

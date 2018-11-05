@@ -6,13 +6,13 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 14:11:08 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/30 17:18:47 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/11/05 11:51:47 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 /*
-static void	ft_move_size_cursor(void *head, void *ptr, size_t size)
+static void		ft_move_size_cursor(void *head, void *ptr, size_t size)
 {
 	void *tmp;
 
@@ -23,6 +23,7 @@ static void	ft_move_size_cursor(void *head, void *ptr, size_t size)
 		((t_zonehead *)tmp)->end = ((t_zonehead *)tmp)->fills + size;
 }
 */
+
 static void		*ft_find_head(void *ptr)
 {
 	void	*tmp;
@@ -43,7 +44,7 @@ static void		*ft_find_head(void *ptr)
 	return (tmp);
 }
 
-void		*realloc(void *ptr, size_t size)
+void			*realloc(void *ptr, size_t size)
 {
 	void	*head;
 	void	*tmp;

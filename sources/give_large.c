@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 10:00:56 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/30 15:41:36 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/11/05 11:49:04 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void			*ft_give_new_header(void)
 	return (new_header);
 }
 
-void		*ft_give_large(size_t size)
+void			*ft_give_large(size_t size)
 {
-	void	*header;
-	void	*addr;
+	void		*header;
+	void		*addr;
 
 	if (!(header = ft_give_new_header()))
 		return (NULL);

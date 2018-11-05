@@ -6,13 +6,13 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:54:38 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/10/30 15:32:14 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/11/05 11:48:47 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void	*ft_extend_zone_header( void )
+void	*ft_extend_zone_header(void)
 {
 	void	*new_header;
 
