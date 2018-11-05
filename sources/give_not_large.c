@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 16:03:16 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/11/05 11:52:28 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/11/05 18:14:57 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ static void	*ft_give_block_header(void *zone_head, size_t need_size)
 	if (((t_zonehead *)block_head)->next == ((t_zonehead *)zone_head)->start +
 			getpagesize())
 		((t_zonehead *)block_head)->next = NULL;
-	if (((t_zonehead *)block_head)->next)
+	if (((t_zonehead *)block_head)->next &&
+			!((t_zonehead *)((t_zonehead *)block_head)->next)->start)
 		((t_zonehead *)((t_zonehead *)block_head)->next)->start =
 			((t_zonehead *)block_head)->start + block_size;
 	return (block_head);
@@ -97,7 +98,7 @@ void	*ft_give_not_large(size_t size)
 	void				*addr;
 	size_t				need_size;
 
-	need_size = (size < SMALL) ? TINY_ZONE : SMALL_ZONE;
+	need_size = (size <= TINY) ? TINY_ZONE : SMALL_ZONE;
 	if (!(zone_head = ft_find_free_zone_header(need_size)))
 		return (NULL);
 	if (!(block_head = ft_give_block_header(zone_head, need_size)))

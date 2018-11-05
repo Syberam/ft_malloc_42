@@ -6,7 +6,7 @@
 #    By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/22 09:39:31 by sbonnefo          #+#    #+#              #
-#    Updated: 2018/10/30 18:45:45 by sbonnefo         ###   ########.fr        #
+#    Updated: 2018/11/05 18:58:43 by sbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ symlink:
 		printf "\e[32m[Symlink created]\e[0m\n"; \
 		fi
 
-$(NAME): $(SRC)
+$(NAME): $(SRC) Makefile $(INC)
 	@printf "\e[32m-----------------------------------------------------\e[0m\n"
 	@$(CC) $(INCS) $(FLAG) $(SRC) $(LIBS) -o $(NAME)
 	@printf "\e[34m%-51s\e[0m" "$@"

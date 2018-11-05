@@ -6,11 +6,15 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:21:47 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/11/05 11:43:54 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/11/05 18:16:13 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
+
+size_t					g_nb_tiny;
+size_t					g_nb_small;
+size_t					g_nb_large;
 
 void					*malloc(size_t size)
 {
