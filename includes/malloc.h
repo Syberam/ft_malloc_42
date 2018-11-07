@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 19:06:56 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/11/05 18:18:17 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/11/07 16:10:25 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@
 # include "libft.h"
 # include <unistd.h>
 # include <sys/mman.h>
-#include <stdio.h>
 
-# define TINY_ZONE					(size_t)(getpagesize() * 32)
-# define SMALL_ZONE					(size_t)(getpagesize() * 64)
+# define TINY_ZONE					(size_t)(getpagesize() * 16)
+# define SMALL_ZONE					(size_t)(getpagesize() * 32)
 # define NB_BLOCKS					(size_t)128
 # define TINY						(size_t)(TINY_ZONE/NB_BLOCKS)
 # define SMALL						(size_t)(SMALL_ZONE/NB_BLOCKS)

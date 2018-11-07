@@ -6,7 +6,7 @@
 #    By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/10 18:28:41 by sbonnefo          #+#    #+#              #
-#    Updated: 2018/10/26 11:16:26 by sbonnefo         ###   ########.fr        #
+#    Updated: 2018/11/07 09:49:58 by sbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,8 @@ SRC = ft_itoa.c \
 	  ft_strrchr.c \
 	  ft_strrccpy.c \
 	  ft_strccpy.c \
-	  ft_print_hexa.c
+	  ft_print_hexa.c \
+	  ft_print_hexa_endl.c
 
 H_DIR = ../includes
 INCL = -I $(H_DIR)
