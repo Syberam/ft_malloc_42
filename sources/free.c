@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 17:52:55 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/12/13 17:03:20 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/12/13 18:00:42 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ static void		ft_free_not_large(void *head, void *link)
 	void	*free_heads;
 
 	block_head = ((t_zonehead *)head)->fills;
+	if (((t_zonehead *)block_head)->start != link)
+	{
+		pthread_mutex_unlock(&g_mutex);
+		return ;
+	}
 	prev_block_head = NULL;
 	if (block_head)
 		free_heads = ((t_zonehead *)block_head)->next;
