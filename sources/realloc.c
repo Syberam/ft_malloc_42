@@ -6,23 +6,29 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 14:11:08 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/11/07 18:01:03 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/12/13 17:04:19 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-/*
-static void		ft_move_size_cursor(void *head, void *ptr, size_t size)
-{
-	void *tmp;
 
+size_t			find_size(void *ptr, void *head)
+{
+	void	*tmp;
+
+	if (ptr == NULL)
+		return (0);
+	if (((t_zonehead *)head)->start == ptr)
+		return (((t_zonehead *)head)->end - ((t_zonehead *)head)->start);
 	tmp = ((t_zonehead *)head)->fills;
-	while (tmp && ((t_zonehead *)tmp)->fills != ptr)
-		tmp = ((t_zonehead *)tmp)->next;
-	if (tmp)
-		((t_zonehead *)tmp)->end = ((t_zonehead *)tmp)->fills + size;
+	while (tmp)
+	{
+		if (((t_zonehead *)tmp)->start == ptr)
+			return ((size_t)((t_zonehead *)tmp)->end);
+		tmp = ((t_zonehead *)tmp)->fills;
+	}
+	return (0);
 }
-*/
 
 static void		*ft_find_head(void *ptr)
 {
@@ -31,9 +37,7 @@ static void		*ft_find_head(void *ptr)
 
 	if (ptr == NULL)
 		return (NULL);
-//	ft_putendl(" ___ find head 1 ___ ");
 	tmp = g_masterhead->fills;
-//	ft_putendl(" ___ find head 2 ___ ");
 	while (tmp)
 	{
 		if (((t_zonehead *)tmp)->start == ptr)
@@ -48,7 +52,6 @@ static void		*ft_find_head(void *ptr)
 				return (NULL);
 			if ((size_t)((t_zonehead *)tmp)->end == SMALL_ZONE && dist % SMALL)
 				return (NULL);
-//			ft_print_hexa_endl(tmp);
 			return (tmp);
 		}
 		tmp = ((t_zonehead *)tmp)->next;
@@ -60,39 +63,22 @@ void			*realloc(void *ptr, size_t size)
 {
 	void	*head;
 	void	*tmp;
-//	size_t	old_size;
+	size_t	memcpy_size;
 
-/*	ft_putstr(" ___ REALLOC in ___ ");
-	ft_print_hexa_endl(ptr);
-*/	if (ptr == NULL)
+	if (ptr == NULL)
 		return (malloc(size));
 	if (size == 0)
 	{
 		free(ptr);
 		return (NULL);
 	}
-//	ft_putendl(" ___ REALLOC 1 ___ ");
 	if (!(head = ft_find_head(ptr)))
 		return NULL;
-//	ft_print_hexa_endl(head);
-//	ft_putendl(" ___ REALLOC 2 ___ ");
-/*	if (head)
-		old_size = (((t_zonehead *)head)->end - ((t_zonehead *)head)->start);
-	else
-		return (ptr);
-	ft_putstr("old size : ");
-	ft_putnbr(old_size);
-	ft_putstr(" new size : ");
-	ft_putnbr(size);
-	ft_putendl("");
-	ft_putendl(" ___ REALLOC 3 ___ ");
-	if (!head || size > old_size)
-	{
-*/		tmp = ptr;
-		ptr = malloc(size);
-		ptr = ft_memcpy(ptr, tmp, size);
-		free(tmp);
-/*	}
-	ft_putendl(" ___ REALLOC out ___ ");
-*/	return (ptr);
+	memcpy_size = find_size(ptr, head);
+	memcpy_size = (memcpy_size > size) ? size : memcpy_size;
+	tmp = ptr;
+	ptr = malloc(size);
+	ptr = ft_memcpy(ptr, tmp, memcpy_size);
+	free(tmp);
+	return (ptr);
 }

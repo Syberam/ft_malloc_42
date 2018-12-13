@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 19:06:56 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/11/07 16:10:25 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/12/13 16:51:22 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include <unistd.h>
 # include <sys/mman.h>
+# include <pthread.h>
 
 # define TINY_ZONE					(size_t)(getpagesize() * 16)
 # define SMALL_ZONE					(size_t)(getpagesize() * 32)
@@ -43,6 +44,7 @@ typedef struct			s_zonehead
 }						t_zonehead;
 
 t_zonehead				*g_masterhead;
+extern pthread_mutex_t	g_mutex;
 
 size_t					ft_align_size(size_t size);
 enum e_alloc_size		ft_find_alloc_size(size_t size);
