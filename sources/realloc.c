@@ -6,13 +6,13 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 14:11:08 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/12/14 11:57:23 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/12/14 17:38:15 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-size_t			find_size(void *ptr, void *head)
+int				find_size(void *ptr, void *head, size_t size)
 {
 	void	*tmp;
 
@@ -24,7 +24,16 @@ size_t			find_size(void *ptr, void *head)
 	while (tmp)
 	{
 		if (((t_zonehead *)tmp)->start == ptr)
+		{
+			if (((size_t)((t_zonehead *)head)->end == TINY_ZONE && size <= TINY)
+				|| ((size_t)((t_zonehead *)head)->end == SMALL_ZONE && size
+					<= SMALL))
+			{
+				(((t_zonehead *)tmp)->end) = (void *)size;
+				return (-1);
+			}
 			return ((size_t)((t_zonehead *)tmp)->end);
+		}
 		tmp = ((t_zonehead *)tmp)->fills;
 	}
 	return (0);
@@ -74,7 +83,8 @@ static void		*ft_realloc(void *ptr, size_t size)
 	}
 	if (!(head = ft_find_head(ptr)))
 		return (NULL);
-	memcpy_size = find_size(ptr, head);
+	if ((memcpy_size = find_size(ptr, head, size)) == -1)
+		return (ptr);
 	memcpy_size = (memcpy_size > size) ? size : memcpy_size;
 	tmp = ptr;
 	ptr = ft_malloc(size);

@@ -6,19 +6,11 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 11:48:20 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/12/14 15:45:22 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/12/14 18:34:42 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
-/*
-**		line41
-**		total += (size_t)((t_zonehead *)heads[i])->end;
-**		ft_putnbr((size_t)((t_zonehead *)heads[i--])->end);
-**		ft_putstr("/");
-***		line42
-*/
 
 static size_t	ft_print_blocks(void *zone_head, size_t kind)
 {
@@ -28,20 +20,22 @@ static size_t	ft_print_blocks(void *zone_head, size_t kind)
 
 	total = 0;
 	i = 0;
-	heads[i] = ((t_zonehead *)zone_head)->fills;
-	while (heads[i] && ((t_zonehead *)heads[i++])->fills)
+	if (!(heads[i] = ((t_zonehead *)zone_head)->fills))
+		return (0);
+	while (((t_zonehead *)heads[i++])->fills)
 		heads[i] = ((t_zonehead *)heads[i - 1])->fills;
-	i--;
-	while (i >= 0)
+	while (--i >= 0)
 	{
 		ft_print_hexa(((t_zonehead *)heads[i])->start);
 		ft_putstr(" - ");
 		ft_print_hexa(((t_zonehead *)heads[i])->start +
 			(size_t)((t_zonehead *)heads[i])->end);
 		ft_putstr(" : ");
+		total += (size_t)((t_zonehead *)heads[i])->end;
+		ft_putnbr((size_t)((t_zonehead *)heads[i])->end);
+		ft_putstr("/");
 		ft_putnbr(kind);
 		ft_putendl(" octets");
-		i--;
 	}
 	return (total);
 }

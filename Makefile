@@ -6,7 +6,7 @@
 #    By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/22 09:39:31 by sbonnefo          #+#    #+#              #
-#    Updated: 2018/12/14 16:10:20 by sbonnefo         ###   ########.fr        #
+#    Updated: 2018/12/14 16:38:48 by sbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LINKED_NAME= libft_malloc.so
 
 CC= gcc
 FLAG= -shared -Wall -Werror -Wextra -Wpadded
-INCS= -I includes
+INCS= includes
 LIBS= -L libft -lft
 
 SRC = $(addprefix $(SRC_PATH)/, \
@@ -36,7 +36,7 @@ SRC = $(addprefix $(SRC_PATH)/, \
 
 SRC_PATH= sources
 
-all: libft $(NAME) symlink
+all: libft $(INC) $(NAME) symlink
 
 libft:
 	@make -C libft
@@ -56,7 +56,7 @@ symlink:
 
 $(NAME): $(SRC) Makefile $(INC)
 	@printf "\e[32m-----------------------------------------------------\e[0m\n"
-	@$(CC) $(INCS) $(FLAG) $(SRC) $(LIBS) -o $(NAME)
+	@$(CC) -I $(INCS) $(FLAG) $(SRC) $(LIBS) -o $(NAME)
 	@printf "\e[34m%-51s\e[0m" "$@"
 	@printf "\e[32m[✔]\e[0m\n"
 	@printf "\e[32m-----------------------------------------------------\e[0m\n"
