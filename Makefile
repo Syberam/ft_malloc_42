@@ -6,7 +6,7 @@
 #    By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/22 09:39:31 by sbonnefo          #+#    #+#              #
-#    Updated: 2018/11/05 18:58:43 by sbonnefo         ###   ########.fr        #
+#    Updated: 2018/12/14 16:10:20 by sbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ FLAG= -shared -Wall -Werror -Wextra -Wpadded
 INCS= -I includes
 LIBS= -L libft -lft
 
-SRC = $(addprefix $(SRC_PATH)/, alloc_size.c \
+SRC = $(addprefix $(SRC_PATH)/, \
+	  alloc_size.c \
 	  free.c \
 	  give_large.c \
 	  give_not_large.c \
@@ -30,6 +31,7 @@ SRC = $(addprefix $(SRC_PATH)/, alloc_size.c \
 	  malloc_init.c \
 	  calloc.c \
 	  show_alloc_mem.c \
+	  show_alloc_mem_.c \
 	  realloc.c)
 
 SRC_PATH= sources

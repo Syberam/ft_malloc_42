@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 19:06:56 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/12/14 11:55:25 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/12/14 16:09:30 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void					*ft_give_new_header(void);
 void					free(void *ptr);
 void					ft_free(void *ptr);
 void					show_alloc_mem(void);
+size_t					show_larges_mem(void *master_head);
 
 #endif
 

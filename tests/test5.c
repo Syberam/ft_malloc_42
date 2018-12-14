@@ -1,10 +1,10 @@
-#include "malloc.h"
+#include "../includes/malloc.h"
 
 int main()
 {
 	ft_putendl(":::::::::::::::::::::::::::::::::::::::");
 	ft_putendl(" TEST 5 START :");
-	ft_putendl(":::::::::::::::::::::::::::::::::::::::");
+	ft_putendl(":::::::::::::::::::::::::::::::::::::::\n");
 	malloc(1024);
 	malloc(5);
 	malloc(111);
