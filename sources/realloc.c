@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 14:11:08 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/12/13 17:57:52 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/12/14 11:57:23 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,34 @@ static void		*ft_find_head(void *ptr)
 	return (tmp);
 }
 
-void			*realloc(void *ptr, size_t size)
+static void		*ft_realloc(void *ptr, size_t size)
 {
 	void	*head;
 	void	*tmp;
 	size_t	memcpy_size;
 
 	if (ptr == NULL)
-		return (malloc(size));
+		return (ft_malloc(size));
 	if (size == 0)
 	{
-		free(ptr);
+		ft_free(ptr);
 		return (NULL);
 	}
 	if (!(head = ft_find_head(ptr)))
-		return NULL;
+		return (NULL);
 	memcpy_size = find_size(ptr, head);
 	memcpy_size = (memcpy_size > size) ? size : memcpy_size;
 	tmp = ptr;
-	ptr = malloc(size);
+	ptr = ft_malloc(size);
 	ptr = ft_memcpy(ptr, tmp, memcpy_size);
-	free(tmp);
+	ft_free(tmp);
+	return (ptr);
+}
+
+void			*realloc(void *ptr, size_t size)
+{
+	pthread_mutex_lock(&g_mutex);
+	ptr = ft_realloc(ptr, size);
+	pthread_mutex_unlock(&g_mutex);
 	return (ptr);
 }

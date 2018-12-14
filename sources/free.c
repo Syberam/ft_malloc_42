@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 17:52:55 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/12/13 18:00:42 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/12/14 11:53:15 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@ static void		ft_free_not_large(void *head, void *link)
 	void	*free_heads;
 
 	block_head = ((t_zonehead *)head)->fills;
-	if (((t_zonehead *)block_head)->start != link)
-	{
-		pthread_mutex_unlock(&g_mutex);
-		return ;
-	}
 	prev_block_head = NULL;
 	if (block_head)
 		free_heads = ((t_zonehead *)block_head)->next;
@@ -33,7 +28,7 @@ static void		ft_free_not_large(void *head, void *link)
 		block_head = ((t_zonehead *)block_head)->fills;
 	}
 	if (block_head == NULL)
-		return ((void)pthread_mutex_unlock(&g_mutex));
+		return ;
 	if (prev_block_head == NULL)
 		((t_zonehead *)head)->fills = ((t_zonehead *)block_head)->fills;
 	else
@@ -41,9 +36,6 @@ static void		ft_free_not_large(void *head, void *link)
 			((t_zonehead *)block_head)->fills;
 	((t_zonehead *)block_head)->end = 0;
 	((t_zonehead *)block_head)->next = free_heads;
-	if (((t_zonehead *)head)->fills)
-		((t_zonehead *)((t_zonehead *)head)->fills)->next = block_head;
-	pthread_mutex_unlock(&g_mutex);
 }
 
 static void		ft_free_large(void *head, void *prev_head)
@@ -65,10 +57,9 @@ static void		ft_free_large(void *head, void *prev_head)
 	g_masterhead->next = head;
 	((t_zonehead *)head)->start = NULL;
 	((t_zonehead *)head)->end = NULL;
-	pthread_mutex_unlock(&g_mutex);
 }
 
-void			free(void *ptr)
+void			ft_free(void *ptr)
 {
 	void	*tmp_prev;
 	void	*tmp;
@@ -77,7 +68,6 @@ void			free(void *ptr)
 
 	if (ptr == NULL)
 		return ;
-	pthread_mutex_lock(&g_mutex);
 	tmp = g_masterhead->fills;
 	tmp_prev = NULL;
 	while (tmp)
@@ -94,5 +84,11 @@ void			free(void *ptr)
 		tmp_prev = tmp;
 		tmp = ((t_zonehead *)tmp)->next;
 	}
+}
+
+void			free(void *ptr)
+{
+	pthread_mutex_lock(&g_mutex);
+	ft_free(ptr);
 	pthread_mutex_unlock(&g_mutex);
 }

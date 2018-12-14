@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 19:06:56 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/12/13 16:51:22 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/12/14 11:55:25 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ size_t					ft_align_size(size_t size);
 enum e_alloc_size		ft_find_alloc_size(size_t size);
 
 void					*malloc(size_t size);
+void					*ft_malloc(size_t size);
 void					*calloc(size_t count, size_t size);
 void					*realloc(void *ptr, size_t size);
 void					*ft_init_malloc(void);
@@ -59,6 +60,7 @@ void					*ft_give_large(size_t size);
 void					*ft_give_new_header(void);
 
 void					free(void *ptr);
+void					ft_free(void *ptr);
 void					show_alloc_mem(void);
 
 #endif

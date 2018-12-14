@@ -6,16 +6,16 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 11:48:20 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/11/07 15:43:59 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/12/14 11:47:08 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "malloc.h"
+#include "malloc.h"
 
 static size_t	ft_print_blocks(void *zone_head, size_t kind)
 {
 	size_t		total;
-	void	*block_head;
+	void		*block_head;
 
 	total = 0;
 	block_head = ((t_zonehead *)zone_head)->fills;
@@ -62,7 +62,7 @@ static size_t	show_tinies(void)
 static size_t	show_smalls(void)
 {
 	size_t		total;
-	void	*master_head;
+	void		*master_head;
 
 	total = 0;
 	master_head = g_masterhead->fills;
@@ -114,8 +114,10 @@ void			show_alloc_mem(void)
 {
 	size_t		total;
 
+	pthread_mutex_lock(&g_mutex);
 	total = show_tinies() + show_smalls() + show_larges();
 	ft_putstr("Total : ");
 	ft_putnbr(total);
 	ft_putendl(" octets");
+	pthread_mutex_unlock(&g_mutex);
 }
