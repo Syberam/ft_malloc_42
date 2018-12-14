@@ -6,7 +6,7 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/30 10:21:08 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/11/07 09:50:29 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/12/14 13:47:12 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ char				*ft_ext_strjoin_free(char const *s1, char const *s2,
 																	size_t mal);
 char				*ft_strtrim(char const *s);
 char				*ft_itoa(int n);
+char				*ft_hexastr(void *addr);
 
 char				**ft_strsplit(char const *s, char c);
 
@@ -93,14 +94,14 @@ typedef struct		s_list
 
 void				ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
 void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
-void				ft_lstadd(t_list **alst, t_list *new);
+void				ft_lstadd(t_list **alst, t_list *new_link);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 
 t_list				*ft_lstnew(void const *content, size_t content_size);
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
 char				*ft_strnchr(const char *s, int c, int n);
-void				ft_lstadd_bwd(t_list **alst, t_list *new);
+void				ft_lstadd_bwd(t_list **alst, t_list *new_link);
 t_list				*ft_lstlast(t_list *lst);
 int					ft_lstlen(t_list *lst);
 size_t				ft_ilen(int c);

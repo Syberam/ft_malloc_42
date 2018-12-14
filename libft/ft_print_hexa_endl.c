@@ -6,11 +6,11 @@
 /*   By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 09:49:07 by sbonnefo          #+#    #+#             */
-/*   Updated: 2018/11/07 09:52:47 by sbonnefo         ###   ########.fr       */
+/*   Updated: 2018/12/14 13:46:03 by sbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/malloc.h"
+#include "libft.h"
 
 static size_t		hexa_power(size_t nb)
 {
