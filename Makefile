@@ -6,7 +6,7 @@
 #    By: sbonnefo <sbonnefo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/22 09:39:31 by sbonnefo          #+#    #+#              #
-#    Updated: 2018/12/14 16:38:48 by sbonnefo         ###   ########.fr        #
+#    Updated: 2018/12/14 18:44:28 by sbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,8 +45,9 @@ norme:
 	@echo "\033[30;42m                   NORME SOURCES                  \033[0m"
 	@norminette $(SRC_PATH)/*.c
 	@echo "\033[30;42m                    NORME .H                      \033[0m"
-	@norminette $(INC_PATH)/*.h
+	@norminette $(INCS)/*.h
 	@echo "\033[30;42m                   NORME LIBFT                    \033[0m"
+	@norminette libft
 
 symlink:
 	@if [ ! -e ${LINKED_NAME} ]; then \
