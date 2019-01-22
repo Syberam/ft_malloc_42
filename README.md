@@ -1,6 +1,10 @@
-# malloc2
+# malloc
+
+
 
 Homemade implementation of malloc.
+With chucks and data separated
+
 Need some corrections to optimise free and memory use but work not bad :).
 
 
